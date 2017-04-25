@@ -69,12 +69,29 @@ const resolvers = {
   Movie: {
     director: (movie) => Directors.getById(movie.directorId),
   },
+  SearchResultItem: {
+    __resolveType (obj, context, info) {
+      if (obj.directorId) {
+        return 'Movie'
+      }
+
+      if (obj.currentSeason) {
+        return 'TvShow'
+      }
+
+      if (obj.born) {
+        return 'Director'
+      }
+
+      return null
+    },
+  },
   Query: {
     movies: (root, { genre }) => (genre && Movies.getByGenre(genre)) || Movies.getAll(),
     movie: (root, { id }) => Movies.getById(id),
     tvShows: (root, { genre }) => (genre && TvShows.getByGenre(genre)) || TvShows.getAll(),
     tvShow: (root, { id }) => TvShows.getById(id),
-    search: (root, { text }) => Search.search(text),
+    search: (root, { text }) => search(text),
   },
 }
 

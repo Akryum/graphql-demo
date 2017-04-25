@@ -11,7 +11,7 @@ const everything = [
 function getMatchCount (text, reg) {
   const match = text.match(reg)
   if (match) {
-    return match.length - 1
+    return match.length
   } else {
     return 0
   }
@@ -30,5 +30,6 @@ export function search (text) {
     return list
   }, [])
   results.sort((a, b)=> b.score - a.score)
+  console.log(results.length, 'results')
   return results
 }
